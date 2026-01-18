@@ -1,4 +1,5 @@
 <?php
+// database/migrations/2014_10_12_000000_create_users_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -10,23 +11,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['administrator', 'manager', 'collaborator'])->default('collaborator');
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('department')->nullable();
-            $table->timestamp('last_login_at')->nullable();
-            $table->integer('login_attempts')->default(0);
-            $table->boolean('is_locked')->default(false);
-            $table->foreignId('manager_id')->nullable()->constrained('users');
-            $table->json('permissions')->nullable(); // Permissions spécifiques
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('userable_type')->nullable();
+            $table->unsignedBigInteger('userable_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            
+            $table->index(['userable_type', 'userable_id']);
         });
     }
 

@@ -1,61 +1,91 @@
 <?php
+// app/Models/User.php
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'email_verified_at',
+        'userable_type',
+        'userable_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
+     * Relation polymorphique
      */
-    protected $appends = [
-        'profile_photo_url',
-    ];
+    public function userable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Vérifie le rôle
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->userable_type === "App\\Models\\" . ucfirst($role);
+    }
+
+    public function isAdministrateur(): bool
+    {
+        return $this->hasRole('Administrateur');
+    }
+
+    public function isManager(): bool
+    {
+        return $this->hasRole('Manager');
+    }
+
+    public function isCollaborateur(): bool
+    {
+        return $this->hasRole('Collaborateur');
+    }
+
+    /**
+     * Scope par type
+     */
+    public function scopeOfType($query, string $type)
+    {
+        $modelClass = "App\\Models\\" . ucfirst($type);
+        return $query->where('userable_type', $modelClass);
+    }
+
+    /**
+     * Accesseurs
+     */
+    public function getFullNameAttribute()
+    {
+        if ($this->userable && method_exists($this->userable, 'getFullName')) {
+            return $this->userable->getFullName();
+        }
+        return $this->email;
+    }
+
+    public function getPermissionsAttribute()
+    {
+        if ($this->userable && method_exists($this->userable, 'getPermissions')) {
+            return $this->userable->getPermissions();
+        }
+        return [];
+    }
 }
