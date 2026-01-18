@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRC Group | Plateforme de Gestion des Collaborateurs</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👥</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👥</text></svg>">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Shapes -->
+    <div class="bg-animated-shapes">
+        <div class="shape s1"></div>
+        <div class="shape s2"></div>
+        <div class="shape s3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <div class="logo-container">
+                    <i class="fas fa-users logo-icon"></i>
+                    <span class="logo-text">LRC<span class="logo-highlight">GROUP</span></span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">
+                            <i class="fas fa-home nav-icon"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fonctionnalites">
+                            <i class="fas fa-bolt nav-icon"></i>Fonctionnalités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#securite">
+                            <i class="fas fa-shield-alt nav-icon"></i>Sécurité
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#technologie">
+                            <i class="fas fa-cogs nav-icon"></i>Technologie
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-connexion pulse" href="#contact">
+                            <i class="fas fa-user-circle me-2"></i>Connexion
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <span class="badge-tag">
+                        <i class="fas fa-shield-check me-2"></i>Plateforme RH Sécurisée
+                    </span>
+                    <h1 class="display-4 fw-bold main-title">
+                        Gestion des <span class="text-highlight">Collaborateurs</span> LRC
+                    </h1>
+                    <p class="lead-text">
+                        Solution MVP conforme aux exigences de sécurité maximale et traçabilité des opérations industrielles.
+                        Gérez vos équipes avec une plateforme intuitive, sécurisée et performante.
+                    </p>
+                    <div class="hero-buttons mt-4">
+                        <a href="#contact" class="btn btn-lrc-primary me-3 pulse">
+                            <i class="fas fa-tachometer-alt me-2"></i>Accéder au Dashboard
+                        </a>
+                        <a href="#fonctionnalites" class="btn btn-lrc-outline">
+                            <i class="fas fa-info-circle me-2"></i>En savoir plus
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats mt-5">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <i class="fas fa-chart-line stat-icon"></i>
+                                    <div class="stat-number" data-count="99.9">0</div>
+                                    <div class="stat-label">Uptime</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <i class="fas fa-lock stat-icon"></i>
+                                    <div class="stat-number" data-count="256">0</div>
+                                    <div class="stat-label">Chiffrement</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <i class="fas fa-user-check stat-icon"></i>
+                                    <div class="stat-number" data-count="1000">0</div>
+                                    <div class="stat-label">Utilisateurs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="dashboard-preview">
+                        <div class="preview-card">
+                            <div class="preview-header">
+                                <div class="preview-title">
+                                    <i class="fas fa-tachometer-alt me-2"></i>
+                                    TABLEAU DE BORD
+                                </div>
+                                <div class="preview-controls">
+                                    <div class="control-dot bg-red"></div>
+                                    <div class="control-dot bg-green"></div>
+                                    <div class="control-dot bg-yellow"></div>
+                                </div>
+                            </div>
+                            <div class="preview-content">
+                                <div class="data-row">
+                                    <div class="data-label">
+                                        <i class="fas fa-users me-2"></i>
+                                        Collaborateurs actifs
+                                    </div>
+                                    <div class="data-value">247</div>
+                                </div>
+                                <div class="data-row">
+                                    <div class="data-label">
+                                        <i class="fas fa-building me-2"></i>
+                                        Départements
+                                    </div>
+                                    <div class="data-value">18</div>
+                                </div>
+                                <div class="data-row">
+                                    <div class="data-label">
+                                        <i class="fas fa-smile me-2"></i>
+                                        Satisfaction RH
+                                    </div>
+                                    <div class="data-value">94%</div>
+                                </div>
+                                <div class="progress-section">
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fonctionnalités Section -->
+    <section id="fonctionnalites" class="section bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="section-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h2 class="section-title">FONCTIONNALITÉS PRINCIPALES</h2>
+                <p class="section-subtitle">Une solution complète pour la gestion optimale de vos équipes</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon bg-blue-light">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="feature-title">Sécurité Maximale</h5>
+                        <p class="feature-text">
+                            Authentification Middleware et protection CSRF/XSS intégrée pour vos données sensibles.
+                        </p>
+                        <div class="feature-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon bg-yellow-light">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h5 class="feature-title">CRUD Complet</h5>
+                        <p class="feature-text">
+                            Gestion dynamique des profils avec validation rigoureuse et intégrité référentielle.
+                        </p>
+                        <div class="feature-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon bg-red-light">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <h5 class="feature-title">Système de Logs</h5>
+                        <p class="feature-text">
+                            Traçabilité totale des erreurs et actions utilisateurs via un monitoring en temps réel.
+                        </p>
+                        <div class="feature-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-card">
+                        <div class="feature-icon bg-green-light">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="feature-title">Analytics Avancés</h5>
+                        <p class="feature-text">
+                            Tableaux de bord personnalisables avec indicateurs clés et rapports détaillés.
+                        </p>
+                        <div class="feature-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sécurité Section -->
+    <section id="securite" class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="security-content" data-aos="fade-right">
+                        <div class="section-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h2 class="section-title">SÉCURITÉ MAXIMALE</h2>
+                        <p class="section-subtitle">
+                            Notre plateforme implémente les standards de sécurité les plus exigeants pour protéger vos données sensibles.
+                        </p>
+                        
+                        <div class="security-features">
+                            <div class="security-item">
+                                <div class="security-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="security-details">
+                                    <h5>Chiffrement AES-256</h5>
+                                    <p>Toutes les données sont chiffrées de bout en bout avec l'algorithme AES-256.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="security-item">
+                                <div class="security-icon">
+                                    <i class="fas fa-shield-check"></i>
+                                </div>
+                                <div class="security-details">
+                                    <h5>Audits réguliers</h5>
+                                    <p>Contrôles de sécurité périodiques et tests d'intrusion pour garantir l'intégrité du système.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="security-item">
+                                <div class="security-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="security-details">
+                                    <h5>Journalisation complète</h5>
+                                    <p>Traçabilité de toutes les actions avec horodatage et identification des utilisateurs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="security-visual">
+                        <div class="security-shield">
+                            <div class="shield-layer layer-1">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="shield-layer layer-2">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="shield-layer layer-3">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="security-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologie Section -->
+    <section id="technologie" class="section bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="section-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2 class="section-title">TECHNOLOGIES UTILISÉES</h2>
+                <p class="section-subtitle">Une architecture moderne et performante</p>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="tech-stack">
+                        <div class="tech-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="tech-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="tech-details">
+                                <h5>Backend robuste</h5>
+                                <p>Node.js avec Express pour des APIs RESTful performantes et scalables.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="tech-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tech-details">
+                                <h5>Base de données sécurisée</h5>
+                                <p>PostgreSQL avec chiffrement au repos et réplication pour haute disponibilité.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="tech-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div class="tech-details">
+                                <h5>Authentification JWT</h5>
+                                <p>Tokens JSON Web pour une gestion sécurisée des sessions utilisateurs.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="tech-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="tech-details">
+                                <h5>Infrastructure cloud</h5>
+                                <p>Hébergement sur infrastructure certifiée avec sauvegardes automatiques.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="architecture-diagram">
+                        <div class="diagram-item frontend">
+                            <div class="diagram-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <div class="diagram-label">Interface Web</div>
+                            <div class="diagram-tech">React.js</div>
+                        </div>
+                        
+                        <div class="diagram-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        
+                        <div class="diagram-item api">
+                            <div class="diagram-icon">
+                                <i class="fas fa-plug"></i>
+                            </div>
+                            <div class="diagram-label">API REST</div>
+                            <div class="diagram-tech">Node.js</div>
+                        </div>
+                        
+                        <div class="diagram-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        
+                        <div class="diagram-item database">
+                            <div class="diagram-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="diagram-label">Base de données</div>
+                            <div class="diagram-tech">PostgreSQL</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="contact" class="section cta-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="cta-icon" data-aos="zoom-in">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    
+                    <h2 class="cta-title" data-aos="fade-up">PRÊT À OPTIMISER VOTRE GESTION RH ?</h2>
+                    
+                    <p class="cta-text" data-aos="fade-up" data-aos-delay="100">
+                        Accédez dès maintenant à notre plateforme sécurisée de gestion des collaborateurs 
+                        et transformez votre façon de travailler.
+                    </p>
+                    
+                    <div class="cta-buttons" data-aos="fade-up" data-aos-delay="200">
+                        <a href="https://votre-lien-de-connexion.com" class="btn btn-lrc-primary btn-lg pulse">
+                            <i class="fas fa-sign-in-alt me-2"></i>Accéder à la plateforme
+                        </a>
+                        <a href="mailto:support@lrc-group.com" class="btn btn-lrc-outline btn-lg ms-3">
+                            <i class="fas fa-envelope me-2"></i>Contactez-nous
+                        </a>
+                    </div>
+                    
+                    <div class="cta-features mt-5" data-aos="fade-up" data-aos-delay="300">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="cta-feature">
+                                    <i class="fas fa-shield-check cta-feature-icon"></i>
+                                    <span>Sécurité maximale</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="cta-feature">
+                                    <i class="fas fa-bolt cta-feature-icon"></i>
+                                    <span>Interface intuitive</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="cta-feature">
+                                    <i class="fas fa-headphones cta-feature-icon"></i>
+                                    <span>Support 24/7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="logo-container mb-3">
+                        <i class="fas fa-users logo-icon"></i>
+                        <span class="logo-text">LRC<span class="logo-highlight">GROUP</span></span>
+                    </div>
+                    <p class="footer-text mb-3">
+                        Plateforme professionnelle de gestion des collaborateurs pour LRC Group. 
+                        Conçue avec les standards de sécurité les plus exigeants.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="mailto:contact@lrc-group.com" class="social-icon" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+33123456789" class="social-icon" aria-label="Téléphone">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">
+                        <i class="fas fa-compass me-2"></i>Navigation
+                    </h5>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right me-1"></i>Accueil</a></li>
+                        <li><a href="#fonctionnalites"><i class="fas fa-chevron-right me-1"></i>Fonctionnalités</a></li>
+                        <li><a href="#securite"><i class="fas fa-chevron-right me-1"></i>Sécurité</a></li>
+                        <li><a href="#technologie"><i class="fas fa-chevron-right me-1"></i>Technologie</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">
+                        <i class="fas fa-file-alt me-2"></i>Ressources
+                    </h5>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right me-1"></i>Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-1"></i>Support technique</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-1"></i>Politique de confidentialité</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-1"></i>Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-title">
+                        <i class="fas fa-address-card me-2"></i>Contact
+                    </h5>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt text-yellow"></i>
+                            <span>Siège social LRC Group</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone text-yellow"></i>
+                            <span>+33 1 23 45 67 89</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope text-yellow"></i>
+                            <span>support@lrc-group.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock text-yellow"></i>
+                            <span>Support : 9h-18h (Lun-Ven)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0">
+                            <i class="fas fa-copyright me-1"></i>
+                            2026 LRC Group SARL - Plateforme RH Sécurisée
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="security-badges">
+                            <span class="badge">
+                                <i class="fas fa-shield-alt"></i>
+                                SSL Sécurisé
+                            </span>
+                            <span class="badge">
+                                <i class="fas fa-lock"></i>
+                                RGPD Conforme
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn-back-top" aria-label="Retour en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
