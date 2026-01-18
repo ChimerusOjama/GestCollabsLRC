@@ -58,6 +58,22 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'api' => [
+        'driver' => 'daily',
+        'path' => storage_path('logs/api.log'),
+        'level' => 'info',
+        'days' => 30,
+        'permission' => 0664,
+        ],
+
+        'api_critical' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api-critical.log'),
+            'level' => 'critical',
+            'days' => 90,
+            'permission' => 0664,
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
