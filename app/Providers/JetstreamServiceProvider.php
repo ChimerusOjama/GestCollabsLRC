@@ -24,6 +24,14 @@ class JetstreamServiceProvider extends ServiceProvider
         $this->configurePermissions();
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
+        
+        // Désactiver l'inscription publique
+        // Utilisez le système Fortify pour rediriger
+        if (class_exists(\Laravel\Fortify\Fortify::class)) {
+            \Laravel\Fortify\Fortify::registerView(function () {
+                return redirect('/login')->with('info', 'Contactez l\'administrateur pour créer un compte.');
+            });
+        }
     }
 
     /**

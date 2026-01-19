@@ -1,5 +1,4 @@
 <?php
-// database/migrations/2014_10_12_000000_create_users_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -7,23 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('password');
+            $table->enum('role', ['admin', 'manager', 'collaborateur'])->default('collaborateur');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('userable_type')->nullable();
-            $table->unsignedBigInteger('userable_id')->nullable();
+            $table->string('password');
             $table->rememberToken();
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
-            $table->softDeletes();
             
-            $table->index(['userable_type', 'userable_id']);
+            // Ajoutez un index sur le nom et prénom pour les recherches
+            $table->index(['last_name', 'first_name', 'role']);
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('users');

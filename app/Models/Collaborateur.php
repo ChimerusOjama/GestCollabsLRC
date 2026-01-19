@@ -1,11 +1,9 @@
 <?php
-// app/Models/Collaborateur.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,10 +12,8 @@ class Collaborateur extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'matricule',
-        'first_name',
-        'last_name',
-        'email',
         'phone',
         'address',
         'date_of_birth',
@@ -41,9 +37,9 @@ class Collaborateur extends Model
     /**
      * Relation avec l'utilisateur
      */
-    public function user(): MorphOne
+    public function user()
     {
-        return $this->morphOne(User::class, 'userable');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -55,21 +51,31 @@ class Collaborateur extends Model
     }
 
     /**
-     * Permissions spécifiques
+     * Accesseurs pour les attributs de l'utilisateur
      */
-    public function getPermissions(): array
+    public function getFirstNameAttribute()
     {
-        return [
-            'profile.view',
-            'profile.edit',
-            'documents.view',
-            'leave.request',
-        ];
+        return $this->user->first_name;
     }
 
-    public function getFullName(): string
+    public function getLastNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->user->last_name;
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->user->email;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->user->full_name;
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->user->role;
     }
 
     /**

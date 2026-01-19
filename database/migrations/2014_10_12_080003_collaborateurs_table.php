@@ -12,9 +12,8 @@ return new class extends Migration
         Schema::create('collaborateurs', function (Blueprint $table) {
             $table->id();
             $table->string('matricule')->unique();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique(); // Email professionnel
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('email_pro')->unique(); // Email professionnel
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->date('date_of_birth')->nullable();

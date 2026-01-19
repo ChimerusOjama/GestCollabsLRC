@@ -1,11 +1,9 @@
 <?php
-// app/Models/Manager.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Manager extends Model
@@ -13,8 +11,7 @@ class Manager extends Model
     use HasFactory;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'user_id',
         'phone',
         'department',
         'level',
@@ -27,9 +24,9 @@ class Manager extends Model
     /**
      * Relation avec l'utilisateur
      */
-    public function user(): MorphOne
+    public function user()
     {
-        return $this->morphOne(User::class, 'userable');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -40,20 +37,32 @@ class Manager extends Model
         return $this->hasMany(Collaborateur::class, 'manager_id');
     }
 
-    public function getPermissions(): array
+    /**
+     * Accesseurs pour les attributs de l'utilisateur
+     */
+    public function getFirstNameAttribute()
     {
-        return [
-            'collaborateur.view',
-            'collaborateur.edit',
-            'collaborateur.create',
-            'report.view',
-            'team.manage',
-        ];
+        return $this->user->first_name;
     }
 
-    public function getFullName(): string
+    public function getLastNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->user->last_name;
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->user->email;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->user->full_name;
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->user->role;
     }
 
     /**

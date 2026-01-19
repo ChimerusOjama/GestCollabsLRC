@@ -11,12 +11,13 @@ return new class extends Migration
     {
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('phone')->nullable();
             $table->string('department');
             $table->enum('level', ['junior', 'senior', 'director'])->default('junior');
             $table->timestamps();
+
+            $table->index(['department', 'level']);
         });
     }
 

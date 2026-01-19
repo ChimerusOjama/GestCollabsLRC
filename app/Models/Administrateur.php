@@ -1,19 +1,16 @@
 <?php
-// app/Models/Administrateur.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Administrateur extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'user_id',
         'phone',
         'department',
     ];
@@ -21,31 +18,36 @@ class Administrateur extends Model
     /**
      * Relation avec l'utilisateur
      */
-    public function user(): MorphOne
+    public function user()
     {
-        return $this->morphOne(User::class, 'userable');
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Permissions spécifiques
+     * Accesseurs pour les attributs de l'utilisateur
      */
-    public function getPermissions(): array
+    public function getFirstNameAttribute()
     {
-        return [
-            'all',
-            'user.create',
-            'user.edit',
-            'user.delete',
-            'collaborateur.manage',
-            'collaborateur.view',
-            'collaborateur.edit',
-            'collaborateur.delete',
-            'settings.manage'
-        ];
+        return $this->user->first_name;
     }
 
-    public function getFullName(): string
+    public function getLastNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->user->last_name;
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->user->email;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->user->full_name;
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->user->role;
     }
 }

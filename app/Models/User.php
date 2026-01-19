@@ -1,91 +1,154 @@
 <?php
-// app/Models/User.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use HasProfilePhoto;
+    use Notifiable;
+    use TwoFactorAuthenticatable;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
+        'first_name',
+        'last_name',
         'email',
+        'role',
         'password',
-        'email_verified_at',
-        'userable_type',
-        'userable_id',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 
     /**
-     * Relation polymorphique
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
      */
-    public function userable(): MorphTo
+    protected $appends = [
+        'profile_photo_url',
+        'full_name',
+    ];
+
+    /**
+     * Accessor pour le nom complet
+     */
+    public function getFullNameAttribute(): string
     {
-        return $this->morphTo();
+        return "{$this->first_name} {$this->last_name}";
     }
 
     /**
-     * Vérifie le rôle
+     * Relation avec le profil Administrateur
      */
-    public function hasRole(string $role): bool
+    public function administrateur()
     {
-        return $this->userable_type === "App\\Models\\" . ucfirst($role);
-    }
-
-    public function isAdministrateur(): bool
-    {
-        return $this->hasRole('Administrateur');
-    }
-
-    public function isManager(): bool
-    {
-        return $this->hasRole('Manager');
-    }
-
-    public function isCollaborateur(): bool
-    {
-        return $this->hasRole('Collaborateur');
+        return $this->hasOne(Administrateur::class);
     }
 
     /**
-     * Scope par type
+     * Relation avec le profil Manager
      */
-    public function scopeOfType($query, string $type)
+    public function manager()
     {
-        $modelClass = "App\\Models\\" . ucfirst($type);
-        return $query->where('userable_type', $modelClass);
+        return $this->hasOne(Manager::class);
     }
 
     /**
-     * Accesseurs
+     * Relation avec le profil Collaborateur
      */
-    public function getFullNameAttribute()
+    public function collaborateur()
     {
-        if ($this->userable && method_exists($this->userable, 'getFullName')) {
-            return $this->userable->getFullName();
+        return $this->hasOne(Collaborateur::class);
+    }
+
+    /**
+     * Retourne le profil spécifique selon le rôle
+     */
+    public function profil()
+    {
+        return match($this->role) {
+            'admin' => $this->administrateur,
+            'manager' => $this->manager,
+            'collaborateur' => $this->collaborateur,
+            default => null,
+        };
+    }
+
+    /**
+     * Permissions selon le rôle
+     */
+    public function getPermissions(): array
+    {
+        return match($this->role) {
+            'admin' => [
+                'all',
+                'user.create',
+                'user.edit',
+                'user.delete',
+                'collaborateur.manage',
+                'collaborateur.view',
+                'collaborateur.edit',
+                'collaborateur.delete',
+                'settings.manage'
+            ],
+            'manager' => [
+                'collaborateur.view',
+                'collaborateur.edit',
+                'collaborateur.create',
+                'report.view',
+                'team.manage',
+            ],
+            'collaborateur' => [
+                'profile.view',
+                'profile.edit',
+                'documents.view',
+                'leave.request',
+            ],
+            default => [],
+        };
+    }
+
+    /**
+     * Vérifie si l'utilisateur a une permission spécifique
+     */
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->role === 'admin') {
+            return true;
         }
-        return $this->email;
-    }
 
-    public function getPermissionsAttribute()
-    {
-        if ($this->userable && method_exists($this->userable, 'getPermissions')) {
-            return $this->userable->getPermissions();
-        }
-        return [];
+        return in_array($permission, $this->getPermissions());
     }
 }
