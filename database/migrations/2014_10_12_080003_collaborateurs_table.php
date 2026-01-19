@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('matricule')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('email_pro')->unique(); // Email professionnel
+            $table->string('email_pro')->nullable()->unique(); // Email professionnel
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->date('date_of_birth')->nullable();

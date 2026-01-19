@@ -9,6 +9,7 @@ use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class CollaborateurController extends Controller
 {
@@ -53,50 +54,57 @@ class CollaborateurController extends Controller
             'matricule' => 'required|unique:collaborateurs|max:20',
             'first_name' => 'required|max:100',
             'last_name' => 'required|max:100',
-            'email' => 'required|email|unique:collaborateurs|unique:users,email',
+            'email' => 'required|email|unique:users,email', // ← ENLEVER "unique:collaborateurs"
             'password' => 'required|min:8',
+            // Ajoutez email_pro si nécessaire
+            'email_pro' => 'nullable|email|unique:collaborateurs,email_pro',
+            'phone' => 'nullable|max:20',
+            'address' => 'nullable',
+            'date_of_birth' => 'nullable|date',
             'department' => 'required|max:100',
             'poste' => 'required|max:100',
             'date_embauche' => 'required|date',
             'statut' => 'required|in:actif,inactif,congé,licencié',
+            'salaire' => 'nullable|numeric',
+            'manager_id' => 'nullable|exists:managers,id',
         ]);
 
         try {
             DB::beginTransaction();
-            
-            // Créer le collaborateur
-            $collaborateur = Collaborateur::create($validated);
-            
-            // Créer l'utilisateur associé
-            User::create([
-                'email' => $collaborateur->email,
-                'password' => bcrypt($validated['password']),
-                'email_verified_at' => now(),
-                'userable_type' => Collaborateur::class,
-                'userable_id' => $collaborateur->id,
+
+            // 1. Créer l'utilisateur
+            $user = User::create([
+                'first_name' => $validated['first_name'],
+                'last_name' => $validated['last_name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'role' => 'collaborateur',
             ]);
-            
+
+            // 2. Créer le collaborateur
+            $collaborateur = Collaborateur::create([
+                'user_id' => $user->id,
+                'matricule' => $validated['matricule'],
+                'email_pro' => $validated['email_pro'] ?? null, // Email professionnel
+                'phone' => $validated['phone'] ?? null,
+                'address' => $validated['address'] ?? null,
+                'date_of_birth' => $validated['date_of_birth'] ?? null,
+                'department' => $validated['department'],
+                'poste' => $validated['poste'],
+                'date_embauche' => $validated['date_embauche'],
+                'statut' => $validated['statut'],
+                'salaire' => $validated['salaire'] ?? null,
+                'manager_id' => $validated['manager_id'] ?? null,
+            ]);
+
             DB::commit();
-            
-            Log::channel('api')->info('👥 COLLABORATEUR CRÉÉ VIA WEB', [
-                'id' => $collaborateur->id,
-                'matricule' => $collaborateur->matricule,
-                'created_by' => auth()->id()
-            ]);
-            
+
             return redirect()->route('admin.collaborateurs.index')
-                ->with('success', 'Collaborateur créé avec succès');
+                ->with('success', 'Collaborateur créé avec succès!');
                 
         } catch (\Exception $e) {
             DB::rollBack();
-            
-            Log::channel('api')->error('💥 ERREUR CRÉATION COLLABORATEUR WEB', [
-                'error' => $e->getMessage(),
-                'data' => $request->except(['password'])
-            ]);
-            
-            return back()->withInput()
-                ->with('error', 'Erreur lors de la création: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Erreur: ' . $e->getMessage());
         }
     }
 
